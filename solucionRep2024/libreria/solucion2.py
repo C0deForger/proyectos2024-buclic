@@ -1,24 +1,16 @@
 mi_libreria = {}
 libros=[]
 def simulador(libreria):
+    #agregar nombre
     print("NOMBRE DE LIBRERIA".center(40, "*"))
     keynombre = input("INGRESE LA KEY QUE CONTENDRA EL NOMBRE DE LA LIBRERIA: ").title().replace(" ", "")
     value_nombre = input("INGRESE EL NOMBRE DE LA LIBRERIA: ").title().replace(" ", "")
     
-    print("CODIGO DE LIBRERIA".center(40, "*"))
-    keycodigo = input("INGRESE LA KEY QUE CONTENDRA EL CODIGO DE LA LIBRERIA: ").title().replace(" ", "")
-    value_codigo = input("INGRESE EL CODIGO DE LA LIBRERIA: ").title().replace(" ", "")
+    libreria[keynombre]= value_nombre #key 1
     
-    libreria[keynombre] = value_nombre
-    
-    agregar_libros(libreria)
-    
-    libreria[keycodigo] = value_codigo
-
-def agregar_libros(libreria):
-    print("AGREGAR LIBRO".center(40, "*"))
-    
-    libreria["Libros"] = {}
+    #agregar libro
+    print("LIBRO".center(40,"*"))
+    key_libro=input ("Ingrese la key que contendra los libros: ").title().replace(" ", "")
     
     while True:
         nombre_libro = input("INGRESE EL NOMBRE DE SU LIBRO: ").title()
@@ -49,48 +41,100 @@ def agregar_libros(libreria):
             break
         else:
             print()
+    #Agregar codigo
+    print("Codigo de la libreria".center(40,"*"))
+    key_codigo= input("INGRESE LA KEY QUE CONTENDRA EL CODIGO DE LA LIBRERIA: ").title().replace(" ","")
+    value_codigo= input("INGRESE EL CODIGO DE LA LIBRERIA: ").title().replace(" ","")
+    
+    libreria[key_codigo]=value_codigo
+   
+
+
+def agregar_libros(libreria):
+    print("AGREGAR LIBRO".center(40, "*"))
+    key=input("INGRESE LA KEY QUE CONTENDRA LOS LIBROS: ").title().replace(" ","")
+    
+    if key in libreria:
+    
+        while True:
+            nombre_libro = input("INGRESE EL NOMBRE DE SU LIBRO: ").title()
+            
+            while True:
+                try:
+                    copias = int(input("INGRESE LAS COPIAS DEL LIBRO: "))
+                    if copias > 0:
+                        break
+                    else:
+                        print("ERROR: INGRESE UN NÚMERO MAYOR A 0")
+                except ValueError:
+                    print("ERROR: Ingresaste un valor no numérico.")
+            
+            autor = input("INGRESE EL NOMBRE DEL AUTOR: ").title()
+            
+            libro = {
+                "TITULO": nombre_libro,
+                "COPIAS": copias,
+                "AUTOR": autor  
+            }
+            
+            libros.append(libro)
+            respuesta = input("¿Deseas agregar otro libro? (n para parar): ").lower()
+            
+            if respuesta == "n":
+                libreria["Libros"] = libros
+                break
+            else:
+                print()
+    else:
+        print("ERROR EN EL VALOR DE KEY")
 
 def buscar_libros(libreria):
     print("BUSQUEDA DE LIBROS".center(40, "*"))
     
-    nombre_libro = input("INGRESE EL NOMBRE DEL LIBRO QUE BUSCARA: ")
-    
-    encontrado = False
-    
-    for libro in libreria.get("Libros", []):
-        if libro["TITULO"].lower() == nombre_libro.lower():
-            encontrado = True
-            if libro["COPIAS"] > 0:
-                copias = libro["COPIAS"]
-                print(f"LIBRO ENCONTRADO! | COPIAS DISPONIBLES: {copias}")
-            else:
-                print(f"LIBRO ENCONTRADO! | NO HAY COPIAS DISPONIBLES")
-    
-    if not encontrado:
-        print("LIBRO NO ENCONTRADO!")
+    key=input("INGRESE LA KEY QUE CONTIENE LIBROS: ")
+    if key in libreria:
+        
+        nombre_libro = input("INGRESE EL NOMBRE DEL LIBRO QUE BUSCARA: ")
+        
+        encontrado = False
+        
+        for libro in libreria.get("Libros", []):
+            if libro["TITULO"].lower() == nombre_libro.lower():
+                encontrado = True
+                if libro["COPIAS"] > 0:
+                    copias = libro["COPIAS"]
+                    print(f"LIBRO ENCONTRADO! | COPIAS DISPONIBLES: {copias}")
+                else:
+                    print(f"LIBRO ENCONTRADO! | NO HAY COPIAS DISPONIBLES")
+        
+        if not encontrado:
+            print("LIBRO NO ENCONTRADO!")
 
 def prestar_libro(libreria):
     print("PRESTAMO DE LIBROS".center(40, "*"))
     
-    nombre_libro = input("INGRESE EL NOMBRE DEL LIBRO QUE BUSCARA: ") 
-    
-    encontrado = False
-    
-    for libro in libreria.get("Libros", []):
-        if libro["TITULO"].lower() == nombre_libro.lower():
-            encontrado = True
-            if libro["COPIAS"] > 0:
-                libro["COPIAS"] -= 1  # Reducir el número de copias disponibles
-                copias = libro["COPIAS"]
-                print(f"LIBRO PRESTADO! | COPIAS RESTANTES: {copias}")
-            else:
-                print(f"LIBRO ENCONTRADO! | NO HAY COPIAS DISPONIBLES")
-    
-    if not encontrado:
-        print("LIBRO NO ENCONTRADO!")
+    key= input("IGRESE LA KEY QUE CONTIENE LOS LIBROS: ").title().replace(" ","")
+    if key in libreria:
+        
+        nombre_libro = input("INGRESE EL NOMBRE DEL LIBRO QUE BUSCARA: ") 
+        
+        encontrado = False
+        
+        for libro in libreria.get("Libros", []):
+            if libro["TITULO"].lower() == nombre_libro.lower():
+                encontrado = True
+                if libro["COPIAS"] > 0:
+                    libro["COPIAS"] -= 1  # Reducir el número de copias disponibles
+                    copias = libro["COPIAS"]
+                    print(f"LIBRO PRESTADO! | COPIAS RESTANTES: {copias}")
+                else:
+                    print(f"LIBRO ENCONTRADO! | NO HAY COPIAS DISPONIBLES")
+        
+        if not encontrado:
+            print("LIBRO NO ENCONTRADO!")
 
 def menu():
-    #simulador(mi_libreria)
+    simulador(mi_libreria)
     
     while True:
         try:
@@ -119,3 +163,6 @@ def menu():
         
         except ValueError:
             print("ERROR: INGRESE SOLO VALORES NUMÉRICOS")
+
+
+menu()
