@@ -1,0 +1,8 @@
+Propetiario ATM: Debuggin Ninja
+Cajero: N_1 - San Miguel
+Nombre del Usuario: Roberto
+Transacciones Realizadas: {'Consultar informacion personal'}
+Saldo Retirado: No se realizo ninguna transacción
+Saldo total en cuenta: 30000.0
+Fecha - Hora: 2024-10-21 12:33:42.89
+
